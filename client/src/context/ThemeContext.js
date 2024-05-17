@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import Cookies from "js-cookie";
 
 const ThemeContext = createContext(null);
 
@@ -14,7 +15,14 @@ export const ThemeProvider = (props) => {
       document.body.classList.remove('dark');
     }
     document.body.style.fontSize = `${fontPercentage}%`;
-  }, [isDarkMode, fontPercentage]);
+
+    const theme = {
+      isDarkMode,
+      accentColor,
+      fontPercentage
+    };
+    Cookies.set("defaultTheme", JSON.stringify(theme));
+  }, [isDarkMode, fontPercentage, accentColor]);
 
   const toggleDarkMode = () => {
     setIsDarkMode(currentMode => !currentMode);
